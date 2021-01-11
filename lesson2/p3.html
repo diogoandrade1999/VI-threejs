@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Lesson 2</title>
+    </head>
+    <body>
+        <script src="../js/three.js"></script>
+
+        <script>
+            var scene = new THREE.Scene();
+
+            var aspectRatio = window.innerWidth / window.innerHeight;
+            var viewSize = 10;
+            var camera = new THREE.OrthographicCamera(
+                (-aspectRatio * viewSize) / 2,
+                (aspectRatio * viewSize) / 2,
+                viewSize / 2,
+                -viewSize / 2,
+                0.1,
+                1000
+            );
+            camera.position.z = 5;
+
+            var renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            var geometry = new THREE.BoxGeometry(1, 1, 1);
+
+            var material = new THREE.MeshPhongMaterial({
+                color: "#006063",
+                specular: "#a9fcff",
+                shininess: 100,
+            });
+
+            var cube = new THREE.Mesh(geometry, material);
+            scene.add(cube);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+            directionalLight.position.set(0, 5, 0);
+            scene.add(directionalLight);
+
+            var alight = new THREE.AmbientLight(0xffffff);
+            scene.add(alight);
+
+            const render = () => {
+                requestAnimationFrame(render);
+
+                cube.rotation.x += 0.1;
+                cube.rotation.y += 0.1;
+
+                renderer.render(scene, camera);
+            };
+            render();
+
+            window.addEventListener("resize", function () {
+                var aspect = window.innerWidth / window.innerHeight;
+                camera.left = (-aspect * viewSize) / 2;
+                camera.right = (aspect * viewSize) / 2;
+                camera.top = viewSize / 2;
+                camera.bottom = -viewSize / 2;
+                camera.updateProjectionMatrix();
+
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        </script>
+    </body>
+</html>

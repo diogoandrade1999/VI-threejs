@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Lesson 1</title>
+    </head>
+    <body>
+        <script src="https://rawgithub.com/mrdoob/three.js/master/build/three.js"></script>
+        <script src="../js/three.js"></script>
+
+        <script>
+            var scene = new THREE.Scene();
+
+            var camera = new THREE.PerspectiveCamera(
+                75,
+                window.innerWidth / window.innerHeight,
+                0.1,
+                1000
+            );
+            camera.position.z = 5;
+
+            var renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            var geometry = new THREE.SphereGeometry(1, 10, 10);
+
+            var material = new THREE.MeshPhongMaterial({
+                color: "#006063",
+                specular: "#a9fcff",
+                shininess: 100,
+                flatShading: true,
+            });
+
+            var sphere = new THREE.Mesh(geometry, material);
+            sphere.position.x = -2.5;
+            scene.add(sphere);
+
+            var material2 = new THREE.MeshPhongMaterial({
+                color: "#006063",
+                specular: "#a9fcff",
+                shininess: 100,
+                flatShading: false,
+            });
+
+            var sphere2 = new THREE.Mesh(geometry, material2);
+            sphere2.position.x = 2.5;
+            scene.add(sphere2);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+            directionalLight.position.set(0, 5, 0);
+            scene.add(directionalLight);
+
+            var alight = new THREE.AmbientLight(0xffffff);
+            scene.add(alight);
+
+            var geometry2 = new THREE.SphereGeometry(3, 20, 20);
+
+            var glassMaterial = new THREE.MeshPhongMaterial({
+                color: 0x222222,
+                specular: 0xffffff,
+                shininess: 100,
+                opacity: 0.3,
+                transparent: true,
+            });
+
+            var sphere3 = new THREE.Mesh(geometry2, glassMaterial);
+            scene.add(sphere3);
+
+            const render = () => {
+                requestAnimationFrame(render);
+
+                sphere.rotation.x += 0.1;
+                sphere.rotation.y += 0.1;
+                sphere2.rotation.x += 0.1;
+                sphere2.rotation.y += 0.1;
+                sphere3.rotation.x += 0.1;
+                sphere3.rotation.y += 0.1;
+
+                renderer.render(scene, camera);
+            };
+            render();
+
+            window.addEventListener("resize", function () {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        </script>
+    </body>
+</html>
