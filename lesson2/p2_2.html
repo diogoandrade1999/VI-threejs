@@ -44,12 +44,19 @@
             var cube = new THREE.Mesh(geometry, material);
             scene.add(cube);
 
-            const render = () => {
-                requestAnimationFrame(render);
+            
 
+            const render = () => {
                 renderer.render(scene, camera);
             };
-            render();
+
+            function animate() {
+                requestAnimationFrame( animate );           
+                controls.update();    
+                render();
+            }
+
+            animate();
 
             window.addEventListener("resize", function () {
                 var aspect = window.innerWidth / window.innerHeight;
