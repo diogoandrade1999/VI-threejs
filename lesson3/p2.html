@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Lesson 3</title>
+    </head>
+    <body>
+        <script src="../js/three.js"></script>
+        <script src="../js/controls/OrbitControls.js"></script>
+
+        <script>
+            var scene = new THREE.Scene();
+
+            var camera = new THREE.PerspectiveCamera(
+                75,
+                window.innerWidth / window.innerHeight,
+                0.1,
+                1000
+            );
+            camera.position.z = 5;
+
+            var controls = new THREE.OrbitControls(camera);
+            controls.update();
+
+            var renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            var geometry = new THREE.BoxGeometry(1, 1, 1);
+
+            var texloader = new THREE.TextureLoader();
+
+            var materials = [
+                new THREE.MeshBasicMaterial({
+                    map: texloader.load("./images/Im1.jpg"),
+                }),
+                new THREE.MeshBasicMaterial({
+                    map: texloader.load("./images/Im2.jpg"),
+                }),
+                new THREE.MeshBasicMaterial({
+                    map: texloader.load("./images/Im3.jpg"),
+                }),
+                new THREE.MeshBasicMaterial({
+                    map: texloader.load("./images/Im4.jpg"),
+                }),
+                new THREE.MeshBasicMaterial({
+                    map: texloader.load("./images/Im5.jpg"),
+                }),
+                new THREE.MeshBasicMaterial({
+                    map: texloader.load("./images/Im6.jpg"),
+                }),
+            ];
+
+            var cube = new THREE.Mesh(geometry, materials);
+            scene.add(cube);
+
+            const render = () => {
+                requestAnimationFrame(render);
+
+                cube.rotation.x += 0.01;
+                cube.rotation.y += 0.01;
+
+                renderer.render(scene, camera);
+            };
+            render();
+
+            window.addEventListener("resize", function () {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        </script>
+    </body>
+</html>
